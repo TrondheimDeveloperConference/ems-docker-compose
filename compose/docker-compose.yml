@@ -11,11 +11,16 @@ services:
     container_name: ems
     depends_on:
       - db
+    #ports:
+    #      - "5006:5005"
+    env_file:
+      - ems-variables.env
   submitit-app:
     image: trondheimdc/submitit
     container_name: submitit
     ports: 
       - "8080:8080"
+      #- "5007:5005"
     env_file:
       - submitit-variables.env
     depends_on:
