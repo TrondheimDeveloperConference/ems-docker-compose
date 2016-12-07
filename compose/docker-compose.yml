@@ -11,8 +11,8 @@ services:
     container_name: ems
     depends_on:
       - db
-    ports:
-      - "5005:5005"
+    #ports:
+    #  - "5005:5005"
     env_file:
       - ems-variables.env
   submitit-app:
@@ -20,7 +20,7 @@ services:
     container_name: submitit
     ports: 
       - "8080:8080"
-      - "5006:5005"
+    #  - "5006:5005"
     env_file:
       - submitit-variables.env
     depends_on:
@@ -31,7 +31,7 @@ services:
     container_name: cake
     ports:
       - "8082:8082"
-      - "5007:5005"
+    #  - "5007:5005"
 
     env_file:
           - cake-variables.env
