@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   email:
     image: theypsilon/docker-fakesmtp
@@ -6,6 +6,9 @@ services:
   db:
     image: trondheimdc/ems-postgresql
     container_name: ems-postgres
+    volumes:
+      - psqldata:/var/lib/postgresql
+    restart: unless-stopped
   ems-app:
     image: trondheimdc/ems
     container_name: ems
@@ -15,10 +18,11 @@ services:
     #  - "5005:5005"
     env_file:
       - ems-variables.env
+    restart: unless-stopped
   submitit-app:
     image: trondheimdc/submitit
     container_name: submitit
-    ports: 
+    ports:
       - "8080:8080"
     #  - "5006:5005"
     env_file:
@@ -26,6 +30,7 @@ services:
     depends_on:
       - ems-app
       - email
+    restart: unless-stopped
   cake-app:
     image: trondheimdc/cake
     container_name: cake
@@ -39,6 +44,7 @@ services:
       - ems-app
       - email
     dns: 8.8.8.8
+    restart: unless-stopped
   api-app:
     image: trondheimdc/api
     container_name: api
@@ -46,8 +52,12 @@ services:
       - "8083:8083"
     depends_on:
       - ems-app
+    restart: unless-stopped
 networks:
    default:
      driver: bridge
      driver_opts:
        'com.docker.network.enable_ipv6': 'true'
+volumes:
+  psqldata:
+    driver: local

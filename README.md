@@ -5,3 +5,5 @@
 * Put the plain text version in cake config and submitit config in property emsPassword.
 * Make sure the Cake app is not exposed with out protection. Either put something in front of it or configure Google OAuth.
 * Run buildall.sh then docker-compose -f compose/docker-compose.yml up
+
+Update app: `docker-compose up --no-deps -d $service (--force-recreate om det kun er endringer i ikke-docker-konfig)`
