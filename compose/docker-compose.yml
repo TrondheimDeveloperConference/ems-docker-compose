@@ -24,7 +24,7 @@ services:
     container_name: devnull
     depends_on:
       - db
-      - ems
+      - ems-app
     ports:
       - "8084:8084"
     env_file:
