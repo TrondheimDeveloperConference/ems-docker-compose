@@ -18,6 +18,8 @@ services:
     #  - "5005:5005"
     env_file:
       - ems-variables.env
+    volumes:
+      - ./emsstorage:/root/ems/binary-storage
     restart: unless-stopped
   devnull-app:
     image: trondheimdc/devnull
