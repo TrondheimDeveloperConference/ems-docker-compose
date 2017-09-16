@@ -28,7 +28,7 @@ services:
       - db
       - ems-app
     ports:
-      - "8084:8084"
+      - "8084:5432"
     env_file:
       - devnull-variables.env
     restart: unless-stopped
