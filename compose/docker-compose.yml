@@ -1,78 +1,40 @@
-version: '2'
+version: '3'
 services:
-  #email:
-  #  image: theypsilon/docker-fakesmtp
-  #  container_name: email
+  email:
+    image: theypsilon/docker-fakesmtp
+    container_name: email
+    expose:
+      - 25
+    networks:
+      - tdcnet
   db:
-    image: trondheimdc/ems-postgresql
-    container_name: ems-postgres
+    image: trondheimdc/tdc-postgresql
+    container_name: tdc-postgres
     volumes:
-      - psqldata:/var/lib/postgresql
+      - psqldata:/var/lib/postgresql/data
+      - psqldata:/home/postgres
     restart: unless-stopped
-  ems-app:
-    image: trondheimdc/ems
-    container_name: ems
+    networks:
+      - tdcnet
+  sleepingpill-app:
+    image: trondheimdc/sleepingpillcore
+    container_name: sleepingpill
     depends_on:
       - db
-    #ports:
-    #  - "5005:5005"
-    env_file:
-      - ems-variables.env
-    volumes:
-      - ./emsstorage:/root/ems/binary-storage
-    restart: unless-stopped
-  devnull-app:
-    image: trondheimdc/devnull
-    container_name: devnull
-    depends_on:
-      - db
-      - ems-app
     ports:
-      - "8084:5432"
+      - "8080:8083"
+      - "5005:5005"
     env_file:
-      - devnull-variables.env
+      - sleepingpillcore-variables.env
     restart: unless-stopped
-  submitit-app:
-    image: trondheimdc/submitit
-    container_name: submitit
-    ports:
-      - "8080:8080"
-    #  - "5006:5005"
-    env_file:
-      - submitit-variables.env
-    depends_on:
-      - ems-app
-      - email
-    restart: unless-stopped
-  cake-app:
-    image: trondheimdc/cake
-    container_name: cake
-    ports:
-      - "8082:8082"
-    #  - "5007:5005"
-
-    env_file:
-       - cake-variables.env
-    depends_on:
-      - ems-app
-      - email
-    dns: 8.8.8.8
-    restart: unless-stopped
-  api-app:
-    image: trondheimdc/api
-    container_name: api
-    ports:
-      - "8083:8083"
-    env_file:
-      - api-variables.env
-    depends_on:
-      - ems-app
-    restart: unless-stopped
-networks:
-   default:
-     driver: bridge
-     driver_opts:
-       'com.docker.network.enable_ipv6': 'true'
+    networks:
+      - tdcnet
 volumes:
   psqldata:
     driver: local
+networks:
+  tdcnet:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.enable_ipv6: "true"

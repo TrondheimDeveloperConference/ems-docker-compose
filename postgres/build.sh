@@ -1,4 +1,4 @@
 #!/bin/bash
 
-docker build -t trondheimdc/ems-postgresql .
-docker push trondheimdc/ems-postgresql
+docker build -t trondheimdc/tdc-postgresql .
+#docker push trondheimdc/tdc-postgresql
