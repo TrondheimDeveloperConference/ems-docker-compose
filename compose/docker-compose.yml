@@ -21,9 +21,11 @@ services:
     container_name: sleepingpill
     depends_on:
       - db
+    volumes:
+      - ./sleepingpill/sleepingPill.conf:/sleepingPill.conf
     ports:
-      - "8080:8083"
-      - "5005:5005"
+      - "8082:8082"
+   #  - "5005:5005"
     env_file:
       - sleepingpillcore-variables.env
     restart: unless-stopped
