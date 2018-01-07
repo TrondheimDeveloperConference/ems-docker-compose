@@ -25,7 +25,7 @@ services:
       - ./sleepingpill/sleepingPill.conf:/sleepingPill.conf
     ports:
       - "8082:8082"
-      - "5005:5005"
+#      - "5005:5005"
     env_file:
       - sleepingpillcore-variables.env
     restart: unless-stopped
@@ -36,7 +36,7 @@ services:
     container_name: submit-backend
     ports:
       - "8080:8081"
-      - "5008:5005"
+#      - "5008:5005"
     env_file:
       - submit-backend-variables.env
     depends_on:
@@ -67,7 +67,7 @@ services:
       - sleepingpill-app
     ports:
       - "8084:5432"
-      - "5009:5005"
+#      - "5009:5005"
     env_file:
       - devnull-variables.env
     restart: unless-stopped
@@ -78,7 +78,7 @@ services:
     container_name: cake
     ports:
       - "8083:8082"
-      - "5007:5005"
+#      - "5007:5005"
     env_file:
        - cake-variables.env
     depends_on:
