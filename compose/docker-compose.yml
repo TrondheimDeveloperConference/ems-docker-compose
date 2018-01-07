@@ -67,6 +67,7 @@ services:
       - sleepingpill-app
     ports:
       - "8084:5432"
+      - "5009:5005"
     env_file:
       - devnull-variables.env
     restart: unless-stopped
