@@ -54,6 +54,8 @@ services:
       - "8085:80"
     depends_on:
       - submit-backend-app
+    volumes:
+      - ./submit/nginx.conf:/etc/nginx/sites-enabled/default
     restart: unless-stopped
     networks:
       - tdcnet
