@@ -47,6 +47,16 @@ services:
     restart: unless-stopped
     networks:
       - tdcnet
+  submit-frontend-app:
+    image: trondheimdc/submit-frontend
+    container_name: submit-frontend
+    ports:
+      - "8085:80"
+    depends_on:
+      - submit-backend-app
+    restart: unless-stopped
+    networks:
+      - tdcnet
   devnull-app:
     image: trondheimdc/devnull
     container_name: devnull
