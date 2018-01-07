@@ -60,6 +60,20 @@ services:
     restart: unless-stopped
     networks:
       - tdcnet
+  cake-app:
+    image: trondheimdc/cake
+    container_name: cake
+    ports:
+      - "8083:8082"
+      - "5007:5005"
+    env_file:
+       - cake-variables.env
+    depends_on:
+      - sleepingpill-app
+      - email
+    restart: unless-stopped
+    networks:
+      - tdcnet
 volumes:
   psqldata:
     driver: local
