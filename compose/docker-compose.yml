@@ -47,6 +47,19 @@ services:
     restart: unless-stopped
     networks:
       - tdcnet
+  devnull-app:
+    image: trondheimdc/devnull
+    container_name: devnull
+    depends_on:
+      - db
+      - sleepingpill-app
+    ports:
+      - "8084:5432"
+    env_file:
+      - devnull-variables.env
+    restart: unless-stopped
+    networks:
+      - tdcnet
 volumes:
   psqldata:
     driver: local
