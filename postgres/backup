@@ -1,1 +1,2 @@
-docker exec -t tdc-postgres pg_dumpall -c -U postgres | gzip > /backup/tdc-postgres_`date +%d-%m-%Y"_"%H_%M`.sql.gz
+#docker exec -t tdc-postgres pg_dumpall -c -U postgres | gzip > /backup/tdc-postgres_`date +%d-%m-%Y"_"%H_%M`.sql.gz
+docker exec -t tdc-postgres pg_dumpall -a -U postgres | gzip > /backup/tdc-postgres_`date +%d-%m-%Y"_"%H_%M`.sql.gz:
