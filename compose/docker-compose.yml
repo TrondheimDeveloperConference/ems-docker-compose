@@ -1,70 +1,70 @@
 version: '3'
 services:
-  email:
+  tdc-email:
     image: theypsilon/docker-fakesmtp
     container_name: email
     expose:
       - 25
     networks:
       - tdcnet
-  db:
+  tdc-db:
     image: trondheimdc/tdc-postgresql
     container_name: tdc-postgres
     volumes:
-      - psqldata:/var/lib/postgresql/data
-      - psqldata:/home/postgres
+      - tdc-psqldata:/var/lib/postgresql/data
+      - tdc-psqldata:/home/postgres
     restart: unless-stopped
     networks:
       - tdcnet
-  sleepingpill-app:
+  tdc-sleepingpill-app:
     image: trondheimdc/sleepingpillcore
     container_name: sleepingpill
     depends_on:
-      - db
+      - tdc-db
     volumes:
       - ./sleepingpill/sleepingPill.conf:/sleepingPill.conf
     ports:
       - "8082:8082"
-#      - "5005:5005"
+        #      - "5005:5005"
     env_file:
       - sleepingpillcore-variables.env
     restart: unless-stopped
     networks:
       - tdcnet
-  submit-backend-app:
+  tdc-submit-backend-app:
     image: trondheimdc/submit-backend
     container_name: submit-backend
     ports:
       - "8080:8081"
-#      - "5008:5005"
+        #      - "5008:5005"
     env_file:
       - submit-backend-variables.env
     depends_on:
-      - sleepingpill-app
-      - email
+      - tdc-sleepingpill-app
+      - tdc-email
     volumes:
       - ./submit/submit-backend.properties:/submit-backend.properties
     restart: unless-stopped
     networks:
       - tdcnet
-  submit-frontend-app:
+  tdc-submit-frontend-app:
     image: trondheimdc/submit-frontend
     container_name: submit-frontend
     ports:
       - "8085:80"
     depends_on:
-      - submit-backend-app
+      - tdc-submit-backend-app
     volumes:
       - ./submit/nginx.conf:/etc/nginx/sites-enabled/default
     restart: unless-stopped
     networks:
       - tdcnet
-  devnull-app:
+  tdc-devnull-app:
     image: trondheimdc/devnull
     container_name: devnull
     depends_on:
-      - db
-      - sleepingpill-app
+      - tdc-db
+      - tdc-sleepingpill-app
     ports:
       - "8084:5432"
 #      - "5009:5005"
@@ -73,22 +73,22 @@ services:
     restart: unless-stopped
     networks:
       - tdcnet
-  cake-app:
+  tdc-cake-app:
     image: trondheimdc/cake
     container_name: cake
     ports:
       - "8083:8082"
-#      - "5007:5005"
+        #      - "5007:5005"
     env_file:
        - cake-variables.env
     depends_on:
-      - sleepingpill-app
-      - email
+      - tdc-sleepingpill-app
+      - tdc-email
     restart: unless-stopped
     networks:
       - tdcnet
 volumes:
-  psqldata:
+  tdc-psqldata:
     driver: local
 networks:
   tdcnet:
