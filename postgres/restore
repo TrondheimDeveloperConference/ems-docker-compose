@@ -1,1 +1,1 @@
-zcat your_dump.sql | docker exec -i ems-postgres psql -U postgres
+zcat your_dump.sql | docker exec -i tdc-postgres psql -U postgres
